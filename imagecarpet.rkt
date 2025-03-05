@@ -12,9 +12,9 @@
 (define SPLOOEY
   (bitmap/url "https://shorturl.at/Va2L3"))
 (define SPLOOEY-TALL
-  (bitmap/url "https://shorturl.at/OXqpx"))
+  (bitmap/url "https://shorturl.at/wDIkw"))
 (define SPLOOEY-WIDE
-  (bitmap/url "https://shorturl.at/46pim"))
+  (bitmap/url "https://shorturl.at/g3Fau"))
 
 
 (@htdf imagecarpet)
