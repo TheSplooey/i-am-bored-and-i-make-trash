@@ -19,7 +19,7 @@
 
 (@htdf imagecarpet)
 (@signature Natural Image -> Image)
-;; produces Sierpinski carpet of width n with any square image as background
+;; produces width n Sierpinski carpet with an img as bg, squishes non-square img
 
 (check-expect (imagecarpet CUTOFF SPLOOEY)
               (scale (/ CUTOFF (image-height SPLOOEY)) SPLOOEY))
@@ -37,45 +37,45 @@
 (check-expect
  (imagecarpet (* 3 CUTOFF) SPLOOEY-TALL)
  (local [(define (dimensions i)
-                    (max (image-height i) (image-width i)))
-                  (define SPLOOEY-TALL-RECTIFY
-                    (scale/xy (/ (dimensions SPLOOEY-TALL)
-                                 (image-width SPLOOEY-TALL))
-                              (/ (dimensions SPLOOEY-TALL)
-                                 (image-height SPLOOEY-TALL)) SPLOOEY-TALL))]
- (overlay (local [(define sub
-                    (scale (/ CUTOFF (image-height SPLOOEY-TALL-RECTIFY))
-                           SPLOOEY-TALL-RECTIFY))
+           (max (image-height i) (image-width i)))
+         (define SPLOOEY-TALL-RECTIFY
+           (scale/xy (/ (dimensions SPLOOEY-TALL)
+                        (image-width SPLOOEY-TALL))
+                     (/ (dimensions SPLOOEY-TALL)
+                        (image-height SPLOOEY-TALL)) SPLOOEY-TALL))]
+   (overlay (local [(define sub
+                      (scale (/ CUTOFF (image-height SPLOOEY-TALL-RECTIFY))
+                             SPLOOEY-TALL-RECTIFY))
                   
-                  (define blk
-                    (scale (/ CUTOFF (image-height SPLOOEY-TALL-RECTIFY))
-                           SPLOOEY-TALL-RECTIFY))]
-            (above (beside sub sub sub)
-                   (beside sub blk sub)
-                   (beside sub sub sub)))
-          (scale (/ (* 3 CUTOFF) (image-height SPLOOEY-TALL-RECTIFY))
-                 SPLOOEY-TALL-RECTIFY))))
+                    (define blk
+                      (scale (/ CUTOFF (image-height SPLOOEY-TALL-RECTIFY))
+                             SPLOOEY-TALL-RECTIFY))]
+              (above (beside sub sub sub)
+                     (beside sub blk sub)
+                     (beside sub sub sub)))
+            (scale (/ (* 3 CUTOFF) (image-height SPLOOEY-TALL-RECTIFY))
+                   SPLOOEY-TALL-RECTIFY))))
 (check-expect
  (imagecarpet (* 3 CUTOFF) SPLOOEY-WIDE)
  (local [(define (dimensions i)
-                    (max (image-height i) (image-width i)))
-                  (define SPLOOEY-WIDE-RECTIFY
-                    (scale/xy (/ (dimensions SPLOOEY-WIDE)
-                                 (image-width SPLOOEY-WIDE))
-                              (/ (dimensions SPLOOEY-WIDE)
-                                 (image-height SPLOOEY-WIDE)) SPLOOEY-WIDE))]
+           (max (image-height i) (image-width i)))
+         (define SPLOOEY-WIDE-RECTIFY
+           (scale/xy (/ (dimensions SPLOOEY-WIDE)
+                        (image-width SPLOOEY-WIDE))
+                     (/ (dimensions SPLOOEY-WIDE)
+                        (image-height SPLOOEY-WIDE)) SPLOOEY-WIDE))]
    (overlay (local [(define sub
-                    (scale (/ CUTOFF (image-height SPLOOEY-WIDE-RECTIFY))
-                           SPLOOEY-WIDE-RECTIFY))
+                      (scale (/ CUTOFF (image-height SPLOOEY-WIDE-RECTIFY))
+                             SPLOOEY-WIDE-RECTIFY))
                   
-                  (define blk
-                    (scale (/ CUTOFF (image-height SPLOOEY-WIDE-RECTIFY))
-                           SPLOOEY-WIDE-RECTIFY))]
-            (above (beside sub sub sub)
-                   (beside sub blk sub)
-                   (beside sub sub sub)))
-          (scale (/ (* 3 CUTOFF) (image-height SPLOOEY-WIDE-RECTIFY))
-                 SPLOOEY-WIDE-RECTIFY))))
+                    (define blk
+                      (scale (/ CUTOFF (image-height SPLOOEY-WIDE-RECTIFY))
+                             SPLOOEY-WIDE-RECTIFY))]
+              (above (beside sub sub sub)
+                     (beside sub blk sub)
+                     (beside sub sub sub)))
+            (scale (/ (* 3 CUTOFF) (image-height SPLOOEY-WIDE-RECTIFY))
+                   SPLOOEY-WIDE-RECTIFY))))
 
 ;(define (imagecarpet n0 i0) empty-image) ;stub
 
