@@ -24,9 +24,10 @@
 (check-expect
  (imagecarpet (* 3 CUTOFF) SPLOOEY)
  (overlay (local [(define sub
-                    (square CUTOFF "solid" "transparent"))
+                    (scale (/ CUTOFF (image-height SPLOOEY)) SPLOOEY))
+                  
                   (define blk
-                   (scale (/ CUTOFF (image-height SPLOOEY)) SPLOOEY))]
+                    (scale (/ CUTOFF (image-height SPLOOEY)) SPLOOEY))]
             (above (beside sub sub sub)
                    (beside sub blk sub)
                    (beside sub sub sub)))
@@ -34,7 +35,8 @@
 (check-expect
  (imagecarpet (* 3 CUTOFF) NIKE)
  (overlay (local [(define sub
-                    (square CUTOFF "solid" "transparent"))
+                    (scale (/ CUTOFF (image-height NIKE)) NIKE))
+                  
                   (define blk
                     (scale (/ CUTOFF (image-height NIKE)) NIKE))]
             (above (beside sub sub sub)
@@ -42,22 +44,29 @@
                    (beside sub sub sub)))
           (scale (/ (* 3 CUTOFF) (image-height NIKE)) NIKE)))
 
-;(define (imagecarpet n0 i) empty-image) ;stub
+;(define (imagecarpet n0 i0) empty-image) ;stub
 
-(@template-origin genrec)
+(@template-origin fn-composition genrec)
 
-(define (imagecarpet n0 i)
-  (overlay
-   (local [(define (nobg-imagecarpet n)
-             (if (<= n CUTOFF)
-                 (square n "solid" "transparent")
-                 (overlay 
-                  (local [(define sub
-                            (nobg-imagecarpet (/ n 3)))
-                          (define blk
-                            (scale (/ (/ n 3) (image-height i)) i))]
-                    (above (beside sub sub sub)
-                           (beside sub blk sub)
-                           (beside sub sub sub)))
-                  (scale (/ n (image-height i)) i))))]
-     (nobg-imagecarpet n0)) (scale (/ n0 (image-height i)) i)))
+(define (imagecarpet n0 i0)
+  (local [(define (imagecarpet n i)
+            (if (<= n CUTOFF)
+                (scale (/ n (image-height i)) i)
+                (overlay 
+                 (local [(define sub
+                           (imagecarpet (/ n 3) i))
+                         
+                         (define blk
+                           (scale (/ (/ n 3) (image-height i)) i))]
+                   (above (beside sub sub sub)
+                          (beside sub blk sub)
+                          (beside sub sub sub)))
+                 (scale (/ n (image-height i)) i))))
+          (define (squared i)
+            (local [(define (dimensions i)
+                      (max (image-height i) (image-width i)))]
+              (scale/xy (/ (dimensions i) (image-width i))
+                        (/ (dimensions i) (image-height i)) i)))]
+    (imagecarpet n0 (squared i0))))
+
+(imagecarpet 600 SPLOOEY)
