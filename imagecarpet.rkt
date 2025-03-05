@@ -11,8 +11,10 @@
 
 (define SPLOOEY
   (bitmap/url "https://shorturl.at/Va2L3"))
-(define NIKE
-  (bitmap/url "https://shorturl.at/N9z3Q"))
+(define SPLOOEY-TALL
+  (bitmap/url "https://shorturl.at/OXqpx"))
+(define SPLOOEY-WIDE
+  (bitmap/url "https://shorturl.at/46pim"))
 
 
 (@htdf imagecarpet)
@@ -33,16 +35,47 @@
                    (beside sub sub sub)))
           (scale (/ (* 3 CUTOFF) (image-height SPLOOEY)) SPLOOEY)))
 (check-expect
- (imagecarpet (* 3 CUTOFF) NIKE)
+ (imagecarpet (* 3 CUTOFF) SPLOOEY-TALL)
+ (local [(define (dimensions i)
+                    (max (image-height i) (image-width i)))
+                  (define SPLOOEY-TALL-RECTIFY
+                    (scale/xy (/ (dimensions SPLOOEY-TALL)
+                                 (image-width SPLOOEY-TALL))
+                              (/ (dimensions SPLOOEY-TALL)
+                                 (image-height SPLOOEY-TALL)) SPLOOEY-TALL))]
  (overlay (local [(define sub
-                    (scale (/ CUTOFF (image-height NIKE)) NIKE))
+                    (scale (/ CUTOFF (image-height SPLOOEY-TALL-RECTIFY))
+                           SPLOOEY-TALL-RECTIFY))
                   
                   (define blk
-                    (scale (/ CUTOFF (image-height NIKE)) NIKE))]
+                    (scale (/ CUTOFF (image-height SPLOOEY-TALL-RECTIFY))
+                           SPLOOEY-TALL-RECTIFY))]
             (above (beside sub sub sub)
                    (beside sub blk sub)
                    (beside sub sub sub)))
-          (scale (/ (* 3 CUTOFF) (image-height NIKE)) NIKE)))
+          (scale (/ (* 3 CUTOFF) (image-height SPLOOEY-TALL-RECTIFY))
+                 SPLOOEY-TALL-RECTIFY))))
+(check-expect
+ (imagecarpet (* 3 CUTOFF) SPLOOEY-WIDE)
+ (local [(define (dimensions i)
+                    (max (image-height i) (image-width i)))
+                  (define SPLOOEY-WIDE-RECTIFY
+                    (scale/xy (/ (dimensions SPLOOEY-WIDE)
+                                 (image-width SPLOOEY-WIDE))
+                              (/ (dimensions SPLOOEY-WIDE)
+                                 (image-height SPLOOEY-WIDE)) SPLOOEY-WIDE))]
+   (overlay (local [(define sub
+                    (scale (/ CUTOFF (image-height SPLOOEY-WIDE-RECTIFY))
+                           SPLOOEY-WIDE-RECTIFY))
+                  
+                  (define blk
+                    (scale (/ CUTOFF (image-height SPLOOEY-WIDE-RECTIFY))
+                           SPLOOEY-WIDE-RECTIFY))]
+            (above (beside sub sub sub)
+                   (beside sub blk sub)
+                   (beside sub sub sub)))
+          (scale (/ (* 3 CUTOFF) (image-height SPLOOEY-WIDE-RECTIFY))
+                 SPLOOEY-WIDE-RECTIFY))))
 
 ;(define (imagecarpet n0 i0) empty-image) ;stub
 
@@ -68,5 +101,3 @@
               (scale/xy (/ (dimensions i) (image-width i))
                         (/ (dimensions i) (image-height i)) i)))]
     (imagecarpet n0 (squared i0))))
-
-(imagecarpet 600 SPLOOEY)
