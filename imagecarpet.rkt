@@ -19,7 +19,7 @@
 
 (@htdf imagecarpet)
 (@signature Natural Image -> Image)
-;; produces Sierpinski carpet of width n with any square image as backgroun
+;; produces Sierpinski carpet of width n with any square image as background
 
 (check-expect (imagecarpet CUTOFF SPLOOEY)
               (scale (/ CUTOFF (image-height SPLOOEY)) SPLOOEY))
